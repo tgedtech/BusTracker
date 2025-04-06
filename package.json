@@ -1,0 +1,26 @@
+{
+  "name": "bustracker",
+  "version": "1.0.0",
+  "description": "A bus tracking application for school leaders and teachers for monitoring dismissals and arrivals.",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && node index.js",
+    "client": "cd client && npm start",
+    "test": "echo \"No tests specified, skipping tests.\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tgedtech/BusTracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tgedtech/BusTracker/issues"
+  },
+  "homepage": "https://github.com/tgedtech/BusTracker#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
