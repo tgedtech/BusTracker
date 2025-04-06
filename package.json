@@ -4,8 +4,8 @@
   "description": "A bus tracking application for school leaders and teachers for monitoring dismissals and arrivals.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "test": "echo \"No tests specified, skipping tests.\" && exit 0"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tgedtech/BusTracker.git"
