@@ -1,5 +1,5 @@
 {
-  "name": "BusTracker",
+  "name": "bustracker",
   "version": "1.0.0",
   "description": "A bus tracking application for school leaders and teachers for monitoring dismissals and arrivals.",
   "main": "index.js",
