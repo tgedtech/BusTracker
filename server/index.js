@@ -121,8 +121,8 @@ app.post('/sheets/create', async (req, res) => {
 // Migration Function: Updates a school's sheet to the latest schema version
 async function migrateSheet(sheetId, req) {
   const sheets = getSheetsClient(req);
-  // Assume headers are in Sheet1, and version is stored in the "config" sheet cell A1
-  const headerRange = 'Sheet1!A1:Z1';
+  // Assume headers are in BT_Master, and version is stored in the "config" sheet cell A1
+  const headerRange = 'BT_Master!A1:Z1';
   const versionRange = 'config!A1';
 
   // Get header row from Sheet1
