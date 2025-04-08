@@ -1,6 +1,6 @@
 // server/models/index.js
 
-const path = require('path'); // Ensure 'path' is required before other operations
+const path = require('path'); // Ensure 'path' is loaded first
 require('dotenv').config({ path: path.join(__dirname, '..', '.env') });
 const fs = require('fs');
 const { Sequelize } = require('sequelize');
@@ -20,7 +20,7 @@ if (!DB_HOST || !DB_PORT || !DB_DATABASE || !DB_USER || !DB_PASSWORD) {
   process.exit(1);
 }
 
-// Initialize Sequelize with our PostgreSQL connection, ensuring SSL is used.
+// Initialize Sequelize with our PostgreSQL connection (using SSL if needed)
 const sequelize = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
   port: DB_PORT,
@@ -41,11 +41,15 @@ const db = {};
 fs.readdirSync(__dirname)
   .filter(file => file !== 'index.js' && file.slice(-3) === '.js')
   .forEach(file => {
-    const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    const modelDef = require(path.join(__dirname, file));
+    const model = modelDef(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
   });
 
-// Setup model associations if they exist.
+// Add debugging: list loaded models
+logger.info("Loaded models: " + Object.keys(db).join(', '));
+
+// Setup model associations if any exist.
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
