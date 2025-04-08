@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Control Panel - BusTracker</title>
+  <!-- Include Tailwind CSS and DaisyUI from CDN for styling -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@3.3.1/dist/full.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+  <div class="container mx-auto p-4">
+    <h1 class="text-3xl font-bold mb-4">Developer Control Panel</h1>
+
+    <!-- Section: Access Code Management -->
+    <div class="card bg-base-100 shadow-xl mb-4">
+      <div class="card-body">
+        <h2 class="card-title">Access Code Management</h2>
+        <button id="generateCode" class="btn btn-primary">Generate Access Code</button>
+        <p id="newCode" class="mt-2"></p>
+      </div>
+    </div>
+
+    <!-- Section: Sheet Creation -->
+    <div class="card bg-base-100 shadow-xl mb-4">
+      <div class="card-body">
+        <h2 class="card-title">Create Sheet</h2>
+        <input id="schoolName" type="text" placeholder="Enter School Name" class="input input-bordered w-full mb-2"/>
+        <button id="createSheet" class="btn btn-primary">Create Sheet</button>
+        <p id="sheetCreateResult" class="mt-2"></p>
+      </div>
+    </div>
+
+    <!-- Section: Schema Migration -->
+    <div class="card bg-base-100 shadow-xl mb-4">
+      <div class="card-body">
+        <h2 class="card-title">Migrate Schema</h2>
+        <input id="sheetId" type="text" placeholder="Enter Sheet ID" class="input input-bordered w-full mb-2"/>
+        <button id="migrateSheet" class="btn btn-primary">Migrate Schema</button>
+        <p id="migrationResult" class="mt-2"></p>
+      </div>
+    </div>
+
+    <!-- Section: View Database (Access Codes) -->
+    <div class="card bg-base-100 shadow-xl mb-4">
+      <div class="card-body">
+        <h2 class="card-title">View Access Codes</h2>
+        <button id="viewDb" class="btn btn-secondary">Fetch Access Codes</button>
+        <pre id="dbDisplay" class="mt-2 bg-gray-200 p-2 rounded"></pre>
+      </div>
+    </div>
+
+    <!-- Section: Log Viewer -->
+    <div class="card bg-base-100 shadow-xl mb-4">
+      <div class="card-body">
+        <h2 class="card-title">View Logs</h2>
+        <button id="viewLogs" class="btn btn-secondary">Fetch Logs</button>
+        <pre id="logsDisplay" class="mt-2 bg-gray-200 p-2 rounded"></pre>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Generate Access Code
+    document.getElementById('generateCode').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/access-code/generate');
+        const data = await response.json();
+        document.getElementById('newCode').textContent = 'Generated Access Code: ' + data.code;
+      } catch (error) {
+        document.getElementById('newCode').textContent = 'Error generating code: ' + error.message;
+      }
+    });
+
+    // Create Sheet
+    document.getElementById('createSheet').addEventListener('click', async () => {
+      const schoolName = document.getElementById('schoolName').value;
+      try {
+        const response = await fetch('/sheets/create', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ schoolName })
+        });
+        const data = await response.json();
+        document.getElementById('sheetCreateResult').textContent = 'Sheet created: ' + data.sheetId;
+      } catch (error) {
+        document.getElementById('sheetCreateResult').textContent = 'Error creating sheet: ' + error.message;
+      }
+    });
+
+    // Migrate Schema
+    document.getElementById('migrateSheet').addEventListener('click', async () => {
+      const sheetId = document.getElementById('sheetId').value;
+      try {
+        const response = await fetch('/sheets/migrate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ sheetId })
+        });
+        const data = await response.json();
+        document.getElementById('migrationResult').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('migrationResult').textContent = 'Error migrating schema: ' + error.message;
+      }
+    });
+
+    // View Database (Access Codes)
+    document.getElementById('viewDb').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/dashboard/access-codes');
+        const data = await response.json();
+        document.getElementById('dbDisplay').textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        document.getElementById('dbDisplay').textContent = 'Error fetching access codes: ' + error.message;
+      }
+    });
+
+    // View Logs (Assumes /logs endpoint)
+    document.getElementById('viewLogs').addEventListener('click', async () => {
+      try {
+        const response = await fetch('/logs');
+        const text = await response.text();
+        document.getElementById('logsDisplay').textContent = text;
+      } catch (error) {
+        document.getElementById('logsDisplay').textContent = 'Error fetching logs: ' + error.message;
+      }
+    });
+  </script>
+</body>
+</html>
