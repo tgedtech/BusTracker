@@ -1,31 +1,40 @@
 {
-    "version": "1.0",
-    "columns": [
-      {
-        "name": "Bus Number",
-        "type": "string",
-        "description": "Unique identifier for each bus."
-      },
-      {
-        "name": "Status",
-        "type": "dropdown",
-        "options": ["waiting", "present", "departed"],
-        "description": "Current status of the bus."
-      },
-      {
-        "name": "Arrival Time",
-        "type": "time",
-        "description": "Time when the bus arrived."
-      },
-      {
-        "name": "Departure Time",
-        "type": "time",
-        "description": "Time when the bus departed."
-      },
-      {
-        "name": "Parking Location",
-        "type": "string",
-        "description": "Optional location where the bus is parked."
-      }
-    ]
-  }
+  "version": "1.2",
+  "columns": [
+    {
+      "name": "Bus Number",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Status",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Arrival Time",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Departure Time",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Parking Location",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Bus Alias",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "Bus Color",
+      "type": "string",
+      "description": ""
+    }
+  ]
+}
