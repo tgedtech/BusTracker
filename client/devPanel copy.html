@@ -150,8 +150,8 @@
       }
     });
 
-   // View Database (Access Codes) - Updated with dynamic header generation and expiration check
-  document.getElementById("viewDb").addEventListener("click", async () => {
+   // View Database (Access Codes) - Updated with dynamic header generation and null checks
+   document.getElementById("viewDb").addEventListener("click", async () => {
     try {
       const response = await fetch("/dashboard/access-codes");
       const data = await response.json();
@@ -159,7 +159,7 @@
       const thead = table.querySelector("thead");
       const tbody = table.querySelector("tbody");
 
-      // Clear existing content in both thead and tbody
+      // Clear any existing content in both thead and tbody
       thead.innerHTML = "";
       tbody.innerHTML = "";
 
@@ -184,30 +184,23 @@
             const td = document.createElement("td");
             td.classList.add("px-4", "py-2");
             let value = record[header];
-
-            if (header === "expires_at") {
-              // Check if value is a valid date
-              const parsed = Date.parse(value);
-              if (!value || isNaN(parsed)) {
-                td.textContent = "No Expiration";
-              } else {
-                // You can format the date as needed; here we convert to a locale string
-                td.textContent = new Date(value).toLocaleString();
-              }
+            // Check if the value is null or undefined
+            if (value === null || value === undefined) {
+              td.textContent = "";
             } else if (header === "metadata") {
-              td.textContent = value ? JSON.stringify(value) : "";
+              td.textContent = JSON.stringify(value);
             } else {
-              td.textContent = value ? value : "";
+              td.textContent = value;
             }
             tr.appendChild(td);
           });
           tbody.appendChild(tr);
         });
       } else {
-        // If no records are returned, insert a single row indicating no data.
+        // If no data is returned, show a single row stating no records were found.
         const tr = document.createElement("tr");
         const td = document.createElement("td");
-        td.setAttribute("colspan", "6"); // Adjust if headers change
+        td.setAttribute("colspan", "6");
         td.textContent = "No access codes found.";
         tr.appendChild(td);
         tbody.appendChild(tr);
