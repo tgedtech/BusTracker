@@ -13,11 +13,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-  "start": "react-scripts start",
+  "start": "NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
   "build": "react-scripts build",
   "test": "react-scripts test",
-  "eject": "react-scripts eject",
-  "tailwind:init": "npx --ignore-existing tailwindcss init -p"
+  "eject": "react-scripts eject"
 },
   "eslintConfig": {
     "extends": [
