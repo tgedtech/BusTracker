@@ -1,235 +1,287 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="nord">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Developer Control Panel - BusTracker</title>
-  <!-- Include Tailwind CSS and DaisyUI from CDN for styling -->
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-
-  <!-- Include DaisyUI Themes -->
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
-
-  <!-- Google Fonts Import -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Signika:wght,GRAD@300..700,-30..0&display=swap" rel="stylesheet">
-
-  <!-- Custom CSS -->
-  <style>
-    body {
-      font-family: "Signika", sans-serif;
-    }
-
-    h1 {
-      font-weight: 700;
-      font-size: 2rem;
-    }
-  </style>
-</head>
-
-<body>
-  <div class="w-full flex justify-center m-4">
-    <!-- Put All Body HTML in this Div -->
-    <div class="w-4/5">
-      <!-- Top Navbar -->
-      <div class="navbar bg-base-100 shadow-sm mb-4">
-        <div class="flex-1">
-          <a class="btn btn-ghost text-xl">Developer Control Panel</a>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Developer Control Panel - BusTracker</title>
+    <!-- Include Tailwind CSS and DaisyUI from CDN for styling -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <!-- Include DaisyUI Themes -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+    <!-- Google Fonts Import -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Signika:wght,GRAD@300..700,-30..0&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Custom CSS -->
+    <style>
+      body {
+        font-family: "Signika", sans-serif;
+      }
+      h1 {
+        font-weight: 700;
+        font-size: 2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="w-full flex justify-center m-4">
+      <!-- Put All Body HTML in this Div -->
+      <div class="w-4/5">
+        <!-- Top Navbar -->
+        <div class="navbar bg-base-100 shadow-sm mb-4">
+          <div class="flex-1">
+            <a class="btn btn-ghost text-xl">Developer Control Panel</a>
+          </div>
+          <div class="flex-none">
+            <button class="btn btn-square btn-ghost">
+              <img src="https://cdn.tged.tech/logos/tg1.svg" alt="Logo" />
+            </button>
+          </div>
         </div>
-        <div class="flex-none">
-          <button class="btn btn-square btn-ghost">
-            <img src="https://cdn.tged.tech/logos/tg1.svg" alt="Logo">
-          </button>
-        </div>
-      </div>
-      <!-- Section: Cards -->
-      <div class="grid grid-cols-3 gap-4">
-        <!-- Section: Access Code Management -->
-        <div class="card bg-base-300 shadow-sm">
-          <div class="card-body">
-            <h2 class="card-title">Access Code Management</h2>
-            <p>Use the button to generate a single access token for testing or other purposes. The new access code will
-              appear below:</p>
-            <p id="newCode" class="text-sm font-black"></p>
-            <div class="card-actions justify-end">
-              <btn class="btn btn-primary" id="generateCode">Generate Access Code</btn>
+        <!-- Section: Cards -->
+        <div class="grid grid-cols-3 gap-4">
+          <!-- Section: Access Code Management -->
+          <div class="card bg-base-300 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title">Access Code Management</h2>
+              <p>
+                Use the button to generate a single access token for testing or other purposes.
+                The new access code will appear below:
+              </p>
+              <p id="newCode" class="text-sm font-black"></p>
+              <div class="card-actions justify-end">
+                <btn class="btn btn-primary" id="generateCode">Generate Access Code</btn>
+              </div>
+            </div>
+          </div>
+          <!-- Section: Sheet Creation -->
+          <div class="card bg-base-300 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title">Create Sheet</h2>
+              <p>
+                Use the button below to generate a sample sheet to be used for testing purposes.
+                The new sheet will have the name entered in the box below.
+              </p>
+              <input id="schoolName" type="text" placeholder="Enter School Name" class="input" />
+              <div class="card-actions justify-end">
+                <p class="text-sm break-all" id="sheetCreateResult"></p>
+                <btn class="btn btn-primary" id="createSheet">Create Sheet</btn>
+              </div>
+            </div>
+          </div>
+          <!-- Section: Schema Migration -->
+          <div class="card bg-base-300 shadow-sm">
+            <div class="card-body">
+              <h2 class="card-title">Migrate Schema</h2>
+              <p>
+                Use the button below to update the schema of a single sheet for testing purposes.
+                Enter the SheetID below for the system to migrate the schema.
+              </p>
+              <input id="sheetID" type="text" placeholder="Enter Sheet ID" class="input" />
+              <p class="text-sm break-all" id="migrationResult"></p>
+              <div class="card-actions justify-end">
+                <btn class="btn btn-primary" id="migrateSheet">Migrate Schema</btn>
+              </div>
             </div>
           </div>
         </div>
-        <!-- Section: Sheet Creation -->
-        <div class="card bg-base-300 shadow-sm">
+        <!-- Section: Access Code Validation -->
+        <div class="card bg-base-300 shadow-sm mt-4">
           <div class="card-body">
-            <h2 class="card-title">Create Sheet</h2>
-            <p>Use the button below to generate a sample sheet to be used for testing purposes. The new sheet will have
-              the name entered in the box below.</p>
-            <input id="schoolName" type="text" placeholder="Enter School Name" class="input">
+            <h2 class="card-title">Validate Access Code</h2>
+            <p>
+              Enter an access code to check if it's valid and active (and not expired).
+            </p>
+            <input id="validateCode" type="text" placeholder="Enter Access Code" class="input mb-2" />
             <div class="card-actions justify-end">
-              <p class="text-sm break-all" id="sheetCreateResult"></p>
-              <btn class="btn btn-primary" id="createSheet">Create Sheet</btn>
+              <btn class="btn btn-primary" id="validateAccessCode">Validate Access Code</btn>
+            </div>
+            <p id="validationResult" class="mt-2 text-sm"></p>
+          </div>
+        </div>
+        <!-- Section: View Database (Access Codes) -->
+        <div class="card bg-base-300 shadow-sm mt-4">
+          <div class="card-body">
+            <h2 class="card-title">View Access Codes</h2>
+            <p>
+              Use the button below to view all access codes in the database. This will display all fields dynamically.
+            </p>
+            <div class="card-actions justify-end">
+              <btn class="btn btn-primary" id="viewDb">Fetch Access Codes</btn>
+            </div>
+            <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
+              <table id="dbDisplay" class="table table-zebra">
+                <thead>
+                  <!-- Headers will be dynamically generated -->
+                </thead>
+                <tbody>
+                  <!-- Table rows will be added dynamically -->
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
-        <!-- Section: Schema Migration -->
-        <div class="card bg-base-300 shadow-sm">
+        <!-- Section: View Logs -->
+        <div class="card bg-base-300 shadow-sm mt-4">
           <div class="card-body">
-            <h2 class="card-title">Migrate Schema</h2>
-            <p>Use the button below to update the schema of a single sheet testing purposes. Enter the SheetID below for the system to migrate the schema.</p>
-            <input id="sheetID" type="text" placeholder="Enter Sheet ID" class="input">
-            <p class="text-sm break-all" id="migrationResult"></p>
-
+            <h2 class="card-title">View Logs</h2>
             <div class="card-actions justify-end">
-              <btn class="btn btn-primary" id="migrateSheet">Migrate Schema</btn>
+              <btn class="btn btn-secondary" id="viewLogs">Fetch Logs</btn>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- Section: View Database (Access Codes) -->
-      <div class="card bg-base-300 shadow-sm mt-4">
-        <div class="card-body">
-          <h2 class="card-title">View Access Codes</h2>
-          <p>Use the button below to view all access codes in the database. This will display both active and inactive codes without a filter applied.</p>
-          <div class="card-actions justify-end">
-            <btn class="btn btn-primary" id="viewDb">Fetch Access Codes</btn>
-          </div>
-          <div class="overflow-x-auto rounded-box border border-base-content/5 bg-base-100">
-            <table id="dbDisplay" class="table table-zebra">
-              <thead>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
+            <pre id="logsDisplay" class="mt-2 bg-gray-200 p-2 rounded"></pre>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <script>
-    // Generate Access Code
-    document.getElementById('generateCode').addEventListener('click', async () => {
-      try {
-        const response = await fetch('/access-code/generate');
-        const data = await response.json();
-        document.getElementById('newCode').textContent = 'Generated Access Code: ' + data.code;
-      } catch (error) {
-        document.getElementById('newCode').textContent = 'Error generating code: ' + error.message;
-      }
-    });
+    <script>
+      // Generate Access Code
+      document.getElementById("generateCode").addEventListener("click", async () => {
+        try {
+          const response = await fetch("/access-code/generate");
+          const data = await response.json();
+          document.getElementById("newCode").textContent =
+            "Generated Access Code: " + data.code;
+        } catch (error) {
+          document.getElementById("newCode").textContent =
+            "Error generating code: " + error.message;
+        }
+      });
 
-    // Create Sheet
-    document.getElementById('createSheet').addEventListener('click', async () => {
-      const schoolName = document.getElementById('schoolName').value;
-      try {
-        const response = await fetch('/sheets/create', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ schoolName })
-        });
-        const data = await response.json();
-        document.getElementById('sheetCreateResult').textContent = 'Sheet created: ' + data.sheetId;
-      } catch (error) {
-        document.getElementById('sheetCreateResult').textContent = 'Error creating sheet: ' + error.message;
-      }
-    });
-
-    // Migrate Schema
-    document.getElementById('migrateSheet').addEventListener('click', async () => {
-      const sheetId = document.getElementById('sheetId').value;
-      try {
-        const response = await fetch('/sheets/migrate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ sheetId })
-        });
-        const data = await response.json();
-        document.getElementById('migrationResult').textContent = JSON.stringify(data, null, 2);
-      } catch (error) {
-        document.getElementById('migrationResult').textContent = 'Error migrating schema: ' + error.message;
-      }
-    });
-
-   // View Database (Access Codes) - Updated with dynamic header generation and expiration check
-  document.getElementById("viewDb").addEventListener("click", async () => {
-    try {
-      const response = await fetch("/dashboard/access-codes");
-      const data = await response.json();
-      const table = document.getElementById("dbDisplay");
-      const thead = table.querySelector("thead");
-      const tbody = table.querySelector("tbody");
-
-      // Clear existing content in both thead and tbody
-      thead.innerHTML = "";
-      tbody.innerHTML = "";
-
-      if (data.length > 0) {
-        // Dynamically determine headers from the keys of the first record
-        const headers = Object.keys(data[0]);
-
-        // Create table header row
-        const trHead = document.createElement("tr");
-        headers.forEach(header => {
-          const th = document.createElement("th");
-          th.classList.add("px-4", "py-2");
-          th.textContent = header;
-          trHead.appendChild(th);
-        });
-        thead.appendChild(trHead);
-
-        // Create table body rows
-        data.forEach(record => {
-          const tr = document.createElement("tr");
-          headers.forEach(header => {
-            const td = document.createElement("td");
-            td.classList.add("px-4", "py-2");
-            let value = record[header];
-
-            if (header === "expires_at") {
-              // Check if value is a valid date
-              const parsed = Date.parse(value);
-              if (!value || isNaN(parsed)) {
-                td.textContent = "No Expiration";
-              } else {
-                // You can format the date as needed; here we convert to a locale string
-                td.textContent = new Date(value).toLocaleString();
-              }
-            } else if (header === "metadata") {
-              td.textContent = value ? JSON.stringify(value) : "";
-            } else {
-              td.textContent = value ? value : "";
-            }
-            tr.appendChild(td);
+      // Create Sheet
+      document.getElementById("createSheet").addEventListener("click", async () => {
+        const schoolName = document.getElementById("schoolName").value;
+        try {
+          const response = await fetch("/sheets/create", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ schoolName })
           });
-          tbody.appendChild(tr);
-        });
-      } else {
-        // If no records are returned, insert a single row indicating no data.
-        const tr = document.createElement("tr");
-        const td = document.createElement("td");
-        td.setAttribute("colspan", "6"); // Adjust if headers change
-        td.textContent = "No access codes found.";
-        tr.appendChild(td);
-        tbody.appendChild(tr);
-      }
-    } catch (error) {
-      console.error("Error fetching access codes: ", error);
-      document.getElementById("dbDisplay").textContent =
-        "Error fetching access codes: " + error.message;
-    }
-  });
+          const data = await response.json();
+          document.getElementById("sheetCreateResult").textContent =
+            "Sheet created: " + data.sheetId;
+        } catch (error) {
+          document.getElementById("sheetCreateResult").textContent =
+            "Error creating sheet: " + error.message;
+        }
+      });
 
-    // View Logs (Assumes /logs endpoint)
-    document.getElementById('viewLogs').addEventListener('click', async () => {
-      try {
-        const response = await fetch('/logs');
-        const text = await response.text();
-        document.getElementById('logsDisplay').textContent = text;
-      } catch (error) {
-        document.getElementById('logsDisplay').textContent = 'Error fetching logs: ' + error.message;
-      }
-    });
-  </script>
-</body>
+      // Migrate Schema
+      document.getElementById("migrateSheet").addEventListener("click", async () => {
+        const sheetId = document.getElementById("sheetID").value;
+        try {
+          const response = await fetch("/sheets/migrate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sheetId })
+          });
+          const data = await response.json();
+          document.getElementById("migrationResult").textContent =
+            JSON.stringify(data, null, 2);
+        } catch (error) {
+          document.getElementById("migrationResult").textContent =
+            "Error migrating schema: " + error.message;
+        }
+      });
 
+      // Validate Access Code
+      document.getElementById("validateAccessCode").addEventListener("click", async () => {
+        const code = document.getElementById("validateCode").value;
+        try {
+          const response = await fetch("/access-code/validate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ code })
+          });
+          const result = await response.json();
+          // Display the response message and valid flag
+          document.getElementById("validationResult").textContent =
+            `Result: ${result.valid ? "Valid" : "Invalid"} - ${result.message}`;
+        } catch (error) {
+          document.getElementById("validationResult").textContent =
+            "Error validating access code: " + error.message;
+        }
+      });
+
+      // View Database (Access Codes)
+      document.getElementById("viewDb").addEventListener("click", async () => {
+        try {
+          const response = await fetch("/dashboard/access-codes");
+          const data = await response.json();
+          const table = document.getElementById("dbDisplay");
+          const thead = table.querySelector("thead");
+          const tbody = table.querySelector("tbody");
+
+          // Clear existing content in both thead and tbody
+          thead.innerHTML = "";
+          tbody.innerHTML = "";
+
+          if (data.length > 0) {
+            // Dynamically determine headers from the keys of the first record
+            const headers = Object.keys(data[0]);
+
+            // Create table header row
+            const trHead = document.createElement("tr");
+            headers.forEach(header => {
+              const th = document.createElement("th");
+              th.classList.add("px-4", "py-2");
+              th.textContent = header;
+              trHead.appendChild(th);
+            });
+            thead.appendChild(trHead);
+
+            // Create table body rows
+            data.forEach(record => {
+              const tr = document.createElement("tr");
+              headers.forEach(header => {
+                const td = document.createElement("td");
+                td.classList.add("px-4", "py-2");
+                let value = record[header];
+                if (header === "expires_at") {
+                  const parsed = Date.parse(value);
+                  if (!value || isNaN(parsed)) {
+                    td.textContent = "No Expiration";
+                  } else {
+                    td.textContent = new Date(value).toLocaleString();
+                  }
+                } else if (header === "metadata") {
+                  td.textContent = value ? JSON.stringify(value) : "";
+                } else {
+                  td.textContent = value ? value : "";
+                }
+                tr.appendChild(td);
+              });
+              tbody.appendChild(tr);
+            });
+          } else {
+            const tr = document.createElement("tr");
+            const td = document.createElement("td");
+            td.setAttribute("colspan", "6");
+            td.textContent = "No access codes found.";
+            tr.appendChild(td);
+            tbody.appendChild(tr);
+          }
+        } catch (error) {
+          console.error("Error fetching access codes: ", error);
+          document.getElementById("dbDisplay").textContent =
+            "Error fetching access codes: " + error.message;
+        }
+      });
+
+      // View Logs (Assumes /logs endpoint)
+      document.getElementById("viewLogs").addEventListener("click", async () => {
+        try {
+          const response = await fetch("/logs");
+          const text = await response.text();
+          document.getElementById("logsDisplay").textContent = text;
+        } catch (error) {
+          document.getElementById("logsDisplay").textContent =
+            "Error fetching logs: " + error.message;
+        }
+      });
+    </script>
+  </body>
 </html>

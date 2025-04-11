@@ -21,8 +21,8 @@ router.post('/validate', async (req, res) => {
     return res.status(400).json({ error: 'Access code is required' });
   }
   try {
-    const isValid = await validateAccessCode(code);
-    res.json({ valid: isValid });
+    const result = await validateAccessCode(code);
+    res.json(result);
   } catch (error) {
     res.status(500).json({ error: 'Failed to validate access code', details: error.message });
   }
