@@ -206,70 +206,78 @@
         }
       });
 
-      // View Database (Access Codes)
-      document.getElementById("viewDb").addEventListener("click", async () => {
-        try {
-          const response = await fetch("/dashboard/access-codes");
-          const data = await response.json();
-          const table = document.getElementById("dbDisplay");
-          const thead = table.querySelector("thead");
-          const tbody = table.querySelector("tbody");
+      // View Database (Access Codes) - Updated to dynamically generate headers and handle assigned email column
+  document.getElementById("viewDb").addEventListener("click", async () => {
+    try {
+      const response = await fetch("/dashboard/access-codes");
+      const data = await response.json();
+      const table = document.getElementById("dbDisplay");
+      const thead = table.querySelector("thead");
+      const tbody = table.querySelector("tbody");
 
-          // Clear existing content in both thead and tbody
-          thead.innerHTML = "";
-          tbody.innerHTML = "";
+      // Clear existing header and body contents
+      thead.innerHTML = "";
+      tbody.innerHTML = "";
 
-          if (data.length > 0) {
-            // Dynamically determine headers from the keys of the first record
-            const headers = Object.keys(data[0]);
+      if (data.length > 0) {
+        // Dynamically determine headers from the keys of the first record
+        const headers = Object.keys(data[0]);
 
-            // Create table header row
-            const trHead = document.createElement("tr");
-            headers.forEach(header => {
-              const th = document.createElement("th");
-              th.classList.add("px-4", "py-2");
-              th.textContent = header;
-              trHead.appendChild(th);
-            });
-            thead.appendChild(trHead);
-
-            // Create table body rows
-            data.forEach(record => {
-              const tr = document.createElement("tr");
-              headers.forEach(header => {
-                const td = document.createElement("td");
-                td.classList.add("px-4", "py-2");
-                let value = record[header];
-                if (header === "expires_at") {
-                  const parsed = Date.parse(value);
-                  if (!value || isNaN(parsed)) {
-                    td.textContent = "No Expiration";
-                  } else {
-                    td.textContent = new Date(value).toLocaleString();
-                  }
-                } else if (header === "metadata") {
-                  td.textContent = value ? JSON.stringify(value) : "";
-                } else {
-                  td.textContent = value ? value : "";
-                }
-                tr.appendChild(td);
-              });
-              tbody.appendChild(tr);
-            });
-          } else {
-            const tr = document.createElement("tr");
-            const td = document.createElement("td");
-            td.setAttribute("colspan", "6");
-            td.textContent = "No access codes found.";
-            tr.appendChild(td);
-            tbody.appendChild(tr);
+        // Create the table header row with renaming for user email fields
+        const trHead = document.createElement("tr");
+        headers.forEach(header => {
+          const th = document.createElement("th");
+          th.classList.add("px-4", "py-2");
+          // Rename header if it's "userEmail" or "user_email" to "Assigned Email"
+          let displayHeader = header;
+          if (header === "userEmail" || header === "user_email") {
+            displayHeader = "Assigned Email";
+          } else if (header === "expires_at" || header === "expiresAt") {
+            displayHeader = "Expires At";
           }
-        } catch (error) {
-          console.error("Error fetching access codes: ", error);
-          document.getElementById("dbDisplay").textContent =
-            "Error fetching access codes: " + error.message;
-        }
-      });
+          th.textContent = displayHeader;
+          trHead.appendChild(th);
+        });
+        thead.appendChild(trHead);
+
+        // Create table body rows
+        data.forEach(record => {
+          const tr = document.createElement("tr");
+          headers.forEach(header => {
+            const td = document.createElement("td");
+            td.classList.add("px-4", "py-2");
+            let value = record[header];
+            if ((header === "expires_at" || header === "expiresAt")) {
+              const parsed = Date.parse(value);
+              if (!value || isNaN(parsed)) {
+                td.textContent = "No Expiration";
+              } else {
+                td.textContent = new Date(value).toLocaleString();
+              }
+            } else if (header === "metadata") {
+              td.textContent = value ? JSON.stringify(value) : "";
+            } else {
+              td.textContent = value ? value : "";
+            }
+            tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      } else {
+        // If no records are found, display a row indicating that.
+        const tr = document.createElement("tr");
+        const td = document.createElement("td");
+        td.setAttribute("colspan", "6"); // Adjust based on number of columns
+        td.textContent = "No access codes found.";
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      }
+    } catch (error) {
+      console.error("Error fetching access codes: ", error);
+      document.getElementById("dbDisplay").textContent =
+        "Error fetching access codes: " + error.message;
+    }
+  });
 
       // View Logs (Assumes /logs endpoint)
       document.getElementById("viewLogs").addEventListener("click", async () => {

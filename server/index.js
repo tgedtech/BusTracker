@@ -10,8 +10,9 @@ const path = require('path');
 const { google } = require('googleapis');
 const chokidar = require('chokidar');
 const logger = require('./logger');
+const cors = require('cors');
 
-const app = express();
+const app = express();app.use(cors());
 const PORT = process.env.PORT || 4000;
 
 // Serve static files from the client folder (for devPanel.html, etc.)
@@ -298,8 +299,8 @@ app.use('/dashboard', dashboardRoutes);
 
 // Database synchronization (for development)
 const db = require('./models');
-db.sequelize.sync().then(() => {
-  logger.info("Database synchronized");
+db.sequelize.sync({ alter: true }).then(() => {
+  logger.info("Database synchronized with alter: true");
 }).catch(err => {
   logger.error("Database synchronization failed: " + err.message);
 });

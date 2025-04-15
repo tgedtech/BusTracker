@@ -27,6 +27,18 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 'active'
     },
+    // Store the email once the code is assigned
+    userEmail: {
+      type: DataTypes.STRING,
+      field: 'user_email',
+      allowNull: true,
+    },
+    // NEW FIELD: Store the school name
+    schoolName: {
+      type: DataTypes.STRING,
+      field: 'school_name',
+      allowNull: true,
+    },
     metadata: {
       type: DataTypes.JSONB,
       allowNull: true
@@ -35,6 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'access_codes',
     timestamps: false,
   });
-
+  
   return AccessCode;
 };

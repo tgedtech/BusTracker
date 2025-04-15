@@ -49,15 +49,16 @@ async function validateAccessCode(code) {
   }
 }
 
-// New function to assign an access code to a user's email and mark it as used.
-async function assignAccessCode(code, email) {
+// Updated function to assign an access code to a user's email and school name, and mark it as used.
+async function assignAccessCode(code, email, schoolName) {
   // Find the active, unassigned access code
   const record = await AccessCode.findOne({ where: { code, status: 'active', userEmail: null } });
   if (!record) {
     throw new Error("Access code is invalid, already used, or does not exist.");
   }
-  // Update the record with the user's email and mark it as used
+  // Update the record with the user's email, school name, and mark it as used
   record.userEmail = email;
+  record.schoolName = schoolName; // Set the school name
   record.status = 'used';
   await record.save();
   return record;
