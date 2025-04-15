@@ -11,9 +11,8 @@ const Onboarding = () => {
   const [sheetId, setSheetId] = useState('');
 
   // Simulated Google Sign-In: This prompts for email after the access code is validated.
-  // We add a default empty string to ensure no hard-coded default value is used.
   const handleGoogleSignIn = async () => {
-    // Always prompt for email so the user must enter a value
+    // Simulate sign-in by prompting for the user's email.
     const emailFromGoogle = window.prompt(
       "Simulated Google Sign-In: Please enter your email",
       ""
@@ -56,16 +55,15 @@ const Onboarding = () => {
     }
   };
 
-  // Assign the access code to the provided email and school name via the backend
+  // Assign the access code to the provided email via the backend
   const handleAssignAccessCode = async (email, schoolName) => {
     setMessage("Assigning access code to your email and school...");
     try {
       const response = await fetch('http://localhost:4000/access-code/assign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: accessCode, email, schoolName }) // Include schoolName in the request body
+        body: JSON.stringify({ code: accessCode, email, schoolName })
       });
-      console.log("Assign response:", response);
       const assignData = await response.json();
       if (assignData.message) {
         setMessage("Access code assigned successfully!");
@@ -109,12 +107,13 @@ const Onboarding = () => {
     }
   };
 
-  // Full onboarding flow: Validate code, then prompt for email, assign code, and create sheet.
+  // The full onboarding flow: Validate code, then prompt for email, assign code, and create sheet.
   const handleFullOnboarding = async (e) => {
     e.preventDefault();
     setMessage("");
     setSheetId("");
-
+    
+    // Trim the access code and school name only at submission time.
     const trimmedAccessCode = accessCode.trim();
     const trimmedSchoolName = schoolName.trim();
     if (!trimmedAccessCode || !trimmedSchoolName) {
@@ -124,16 +123,19 @@ const Onboarding = () => {
     setAccessCode(trimmedAccessCode);
     setSchoolName(trimmedSchoolName);
 
+    // Step 1: Validate the access code.
     const isValid = await handleValidateAccessCode();
     if (!isValid) return;
 
+    // Step 2: Prompt for Google sign-in (simulate) to get user email.
     const email = await handleGoogleSignIn();
     if (!email) return;
 
-    // Pass schoolName along with email to handleAssignAccessCode
+    // Step 3: Assign the access code to the user's email, along with the school name.
     const assigned = await handleAssignAccessCode(email, trimmedSchoolName);
     if (!assigned) return;
 
+    // Step 4: Create the school sheet.
     await handleCreateSheet();
   };
 
@@ -153,10 +155,11 @@ const Onboarding = () => {
         </div>
         <div>
           <label className="block text-sm font-medium">School Name</label>
+          {/* Removed the .trim() onChange so that spaces can be entered */}
           <input
             type="text"
             value={schoolName}
-            onChange={(e) => setSchoolName(e.target.value.trim())}
+            onChange={(e) => setSchoolName(e.target.value)}
             className="mt-1 input input-bordered w-full"
             placeholder="Enter your school name"
           />
