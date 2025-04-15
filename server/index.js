@@ -293,6 +293,10 @@ app.post('/sheets/migrate', async (req, res) => {
 const accessCodeRoutes = require('./routes/accessCodeRoutes');
 app.use('/access-code', accessCodeRoutes);
 
+// Mount admin routes
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/admin', adminRoutes);
+
 // Mount dashboard routes
 const dashboardRoutes = require('./routes/dashboardRoutes');
 app.use('/dashboard', dashboardRoutes);
